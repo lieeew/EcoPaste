@@ -90,6 +90,7 @@ const List: FC = () => {
   const [isModifierPressed, setIsModifierPressed] = useState(false);
   const [customGroups, setCustomGroups] = useState<ClipboardGroupRecord[]>([]);
   const [noteTarget, setNoteTarget] = useState<ClipboardItem | null>(null);
+  const [mountKey, setMountKey] = useState(0);
   const virtuosoRef = useRef<VirtuosoHandle>(null);
   const isAtTopRef = useRef(true);
   const itemElementMapRef = useRef(new Map<string, HTMLDivElement>());
@@ -290,17 +291,20 @@ const List: FC = () => {
     clipboardWindowVisibleRef.current = visible;
     if (!visible) return;
 
+    setMountKey((current) => {
+      return current + 1;
+    });
+
+    window.requestAnimationFrame(() => {
+      window.dispatchEvent(new Event("resize"));
+    });
+
     const {
       scrollToTopOnOpen,
       selectCategoryOnOpen,
       selectGroupOnOpen,
       selectRangeOnOpen,
     } = settings.clipboard.window;
-    const shouldResetSelection =
-      selectRangeOnOpen !== WINDOW_OPEN_SELECTION_PRESERVE ||
-      selectCategoryOnOpen !== WINDOW_OPEN_SELECTION_PRESERVE ||
-      selectGroupOnOpen !== WINDOW_OPEN_SELECTION_PRESERVE;
-    if (!scrollToTopOnOpen && !shouldResetSelection) return;
 
     closePreview("windowOpenReset");
 
@@ -321,9 +325,15 @@ const List: FC = () => {
       clipboardViewState.groupId = openGroupId;
     }
 
-    if (!scrollToTopOnOpen) return;
+    if (!scrollToTopOnOpen) {
+      if (deferredReloadRef.current && isAtTopRef.current) {
+        consumeDeferredReloadAtTop();
+      }
+      return;
+    }
 
     setSelectedId(null);
+    isAtTopRef.current = true;
     virtuosoRef.current?.scrollToIndex({ behavior: "auto", index: 0 });
     consumeDeferredReloadAtTop();
   };
@@ -815,6 +825,10 @@ const List: FC = () => {
     </div>
   );
 
+  function computeItemKey(index: number) {
+    return getItem(index)?.id ?? `placeholder-${index}`;
+  }
+
   function renderVirtuoso(props: VirtuosoScrollerChildrenProps) {
     const { scrollerRef } = props;
 
@@ -824,6 +838,7 @@ const List: FC = () => {
         components={{ TopItemList }}
         computeItemKey={computeItemKey}
         itemContent={renderItemContent}
+        key={mountKey}
         rangeChanged={handleRangeChanged}
         ref={virtuosoRef}
         scrollerRef={scrollerRef}
@@ -1352,10 +1367,6 @@ function shouldUseNativeCopy(event: KeyboardEvent) {
 
   return Boolean(selection && !selection.isCollapsed);
 }
-
-const computeItemKey = (index: number, item?: ClipboardItem) => {
-  return item?.id ?? `placeholder-${index}`;
-};
 
 /**
  * Virtuoso 的置顶项会 sticky 覆盖滚动内容；这里补实底色避免下方条目透出。
