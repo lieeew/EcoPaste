@@ -1,10 +1,4 @@
 {
-  "about": {
-    "checkUpdates": "Check for updates",
-    "sponsor": "Sponsor",
-    "sponsorHint": "If EcoPaste helps your workflow, you can support the project.",
-    "sponsorQrAlt": "Sponsor QR code"
-  },
   "backup": {
     "export": {
       "confirmPassword": "Confirm password",
@@ -74,9 +68,6 @@
       "weeks": "Weeks"
     },
     "sections": {
-      "about": {
-        "title": "App Info"
-      },
       "actions": {
         "title": "Quick Actions"
       },
@@ -132,29 +123,11 @@
       "source": {
         "title": "App Filters"
       },
-      "updates": {
-        "title": "Updates"
-      },
       "window": {
         "title": "Clipboard Window"
       }
     },
     "settings": {
-      "about": {
-        "checkUpdates": {
-          "controlLabel": "Check",
-          "description": "Check whether a new EcoPaste version is available.",
-          "title": "Check for Updates"
-        },
-        "github": {
-          "controlLabel": "Open",
-          "title": "GitHub"
-        },
-        "sponsor": {
-          "description": "If EcoPaste helps your workflow, you can support the project.",
-          "title": "Sponsor"
-        }
-      },
       "actions": {
         "deleteConfirm": {
           "description": "Ask before deleting regular history records. Favorited and pinned records use their own switches.",
@@ -378,8 +351,7 @@
             "contextSubmenu": "Context Submenu Window",
             "onboarding": "Onboarding Window",
             "preference": "Preferences Window",
-            "preview": "Clipboard Preview Window",
-            "update": "Software Update Window"
+            "preview": "Clipboard Preview Window"
           }
         }
       },
@@ -558,29 +530,6 @@
           "title": "Ignored Apps"
         }
       },
-      "updates": {
-        "autoCheck": {
-          "description": "Periodically check whether a new EcoPaste version is available.",
-          "title": "Automatically Check for Updates"
-        },
-        "beta": {
-          "description": "Receive beta test versions when checking for updates.",
-          "title": "Receive Beta Updates"
-        },
-        "frequency": {
-          "description": "Set how often EcoPaste checks for updates.",
-          "options": {
-            "daily": "Daily",
-            "monthly": "Monthly",
-            "weekly": "Weekly"
-          },
-          "title": "Update Check Frequency"
-        },
-        "nightly": {
-          "description": "Receive nightly versions when checking for updates.",
-          "title": "Receive Nightly Updates"
-        }
-      },
       "window": {
         "idleDestroySeconds": {
           "description": "Release secondary WebViews such as preferences, preview, and context menus after they have been hidden for this long; they rebuild automatically next time.",
@@ -635,9 +584,6 @@
       }
     },
     "tabs": {
-      "about": {
-        "title": "About"
-      },
       "data": {
         "title": "Data"
       },

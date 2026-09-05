@@ -16,10 +16,8 @@ import {
   getWindowLifecycleSnapshot,
   inspectHistoryBackup,
   listClipboardGroups,
-  openExternalUrl,
   openOnboarding,
   openPreferenceDirectory,
-  openUpdateWindow,
   releaseWindowKeepalive,
   resetStorageLocation,
   type StorageLocation,
@@ -27,7 +25,6 @@ import {
   type WindowLifecycleSnapshot,
 } from "@/commands";
 import CustomIconButton from "@/components/CustomIconButton";
-import { GITHUB_URL } from "@/constants/urls";
 import { WINDOW_LABEL } from "@/constants/windows";
 import { resetSettings } from "@/stores/settings";
 import type { ClipboardGroupRecord } from "@/types/clipboard";
@@ -40,8 +37,6 @@ import ClipboardGroupManagerModal from "../ClipboardGroupManagerModal";
 import ControlFrame from "./ControlFrame";
 
 const BACKUP_EXTENSION = "ecopastebak";
-const ABOUT_CHECK_UPDATES_SETTING_ID = "about.checkUpdates";
-const ABOUT_GITHUB_SETTING_ID = "about.github";
 const CLEAN_CACHE_SETTING_ID = "localData.cleanCache";
 const CUSTOM_GROUPS_SETTING_ID = "organizing.customGroups";
 const DATA_DIRECTORY_SETTING_ID = "localData.dataDirectory";
@@ -78,7 +73,6 @@ const WINDOW_LIFECYCLE_WINDOW_LABEL_KEYS: Record<string, string> = {
   [WINDOW_LABEL.ONBOARDING]: `${WINDOW_LIFECYCLE_I18N_PREFIX}.windows.onboarding`,
   [WINDOW_LABEL.PREFERENCE]: `${WINDOW_LIFECYCLE_I18N_PREFIX}.windows.preference`,
   [WINDOW_LABEL.PREVIEW]: `${WINDOW_LIFECYCLE_I18N_PREFIX}.windows.preview`,
-  [WINDOW_LABEL.UPDATE]: `${WINDOW_LIFECYCLE_I18N_PREFIX}.windows.update`,
 };
 
 interface ActionControlProps {
@@ -321,20 +315,6 @@ const ActionControl: FC<ActionControlProps> = (props) => {
   };
 
   const handleClick = async () => {
-    if (setting.id === ABOUT_CHECK_UPDATES_SETTING_ID) {
-      await runWithKeepalive("open-update-window", openUpdateWindow);
-      markActionComplete();
-      return;
-    }
-
-    if (setting.id === ABOUT_GITHUB_SETTING_ID) {
-      await runWithKeepalive("open-github", () => {
-        return openExternalUrl(GITHUB_URL);
-      });
-      markActionComplete();
-      return;
-    }
-
     if (setting.id === EXPORT_BACKUP_SETTING_ID) {
       openExportModal();
       return;
