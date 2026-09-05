@@ -12,10 +12,6 @@ interface PreferenceTabMeta {
 }
 
 export const PREFERENCE_TAB_META: Record<PreferenceTabId, PreferenceTabMeta> = {
-  about: {
-    activeClass: "bg-ant-fill-secondary text-ant-text",
-    icon: "i-lucide:info",
-  },
   data: {
     activeClass: "bg-ant-fill-secondary text-ant-text",
     icon: "i-lucide:database",

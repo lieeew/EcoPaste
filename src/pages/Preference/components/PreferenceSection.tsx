@@ -136,12 +136,6 @@ export default PreferenceSection;
 function resolveSectionVisual(id: string): SectionVisual {
   const normalizedId = id.toLowerCase();
 
-  if (normalizedId.includes("about")) {
-    return {
-      icon: "i-lucide:info",
-    };
-  }
-
   if (normalizedId.includes("capture")) {
     return {
       icon: "i-lucide:clipboard-plus",
@@ -231,12 +225,6 @@ function resolveSectionVisual(id: string): SectionVisual {
   }
 
   if (normalizedId.includes("backup")) {
-    return {
-      icon: "i-lucide:refresh-cw",
-    };
-  }
-
-  if (normalizedId.includes("updates")) {
     return {
       icon: "i-lucide:refresh-cw",
     };

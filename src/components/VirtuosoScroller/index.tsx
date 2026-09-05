@@ -2,6 +2,9 @@ import type { PartialOptions } from "overlayscrollbars";
 import { useOverlayScrollbars } from "overlayscrollbars-react";
 import type { FC, ReactNode } from "react";
 import { useCallback, useEffect, useRef, useState } from "react";
+import { TAURI_EVENT } from "@/constants/events";
+import { WINDOW_LABEL } from "@/constants/windows";
+import { useTauriListen } from "@/hooks/useTauriListen";
 import { cn } from "@/utils/cn";
 
 const VIRTUOSO_SCROLLBAR_OPTIONS = {
@@ -61,6 +64,22 @@ const VirtuosoScroller: FC<VirtuosoScrollerProps> = (props) => {
   const handleScrollerRef = useCallback((ref: VirtuosoScrollerRef) => {
     setScroller(ref);
   }, []);
+
+  const handleWindowVisibility = (event: {
+    payload: { label: string; visible: boolean };
+  }) => {
+    if (
+      event.payload.label === WINDOW_LABEL.CLIPBOARD &&
+      event.payload.visible
+    ) {
+      osInstance()?.update(true);
+    }
+  };
+
+  useTauriListen<{ label: string; visible: boolean }>(
+    TAURI_EVENT.WINDOW_VISIBILITY,
+    handleWindowVisibility,
+  );
 
   return (
     <div
